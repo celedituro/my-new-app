@@ -7,7 +7,7 @@ using my_new_app.Data;
 
 namespace mynewapp.Migrations
 {
-    [DbContext(typeof(ApiDbContext))]
+    [DbContext(typeof(PersonContext))]
     partial class ApiDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

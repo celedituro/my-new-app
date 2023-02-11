@@ -8,7 +8,7 @@ using my_new_app.Data;
 
 namespace mynewapp.Migrations
 {
-    [DbContext(typeof(ApiDbContext))]
+    [DbContext(typeof(PersonContext))]
     [Migration("20230210183210_initial_migration")]
     partial class InitialMigration
     {
