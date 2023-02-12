@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using my_new_app.Data;
+using my_new_app.DataAccess.Interfaces;
 using my_new_app.Models;
 
 namespace my_new_app.Controllers
@@ -13,50 +8,33 @@ namespace my_new_app.Controllers
     [Route("person")]
     public class PersonController : ControllerBase
     {
-        private readonly PersonContext _dbContext;
+        private readonly IRepositoryAsync<Person> _repository;
 
-        public PersonController(PersonContext dbContext)
+        public PersonController(IRepositoryAsync<Person> repository)
         {
-            _dbContext = dbContext;
+            _repository = repository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
         {
-            if(_dbContext.People == null)
-            {
-                return NotFound();
-            }
-
-            return await _dbContext.People.ToListAsync();
+            var data = await _repository.GetAll();
+            return Ok(data);
         }
 
         
         [HttpGet("{id}")]
-        public async Task<ActionResult<Person>> GetPerson(int id)
+        public async Task<ActionResult<Person>> GetPerson(string id)
         {
-            if(_dbContext.People == null)
-            {
-                return NotFound();
-            }
-
-            var person = await _dbContext.People.FindAsync(id);
-
-            if(person == null)
-            {
-                return NotFound();
-            }
-
+            var person = await _repository.GetById(id);
             return person;
         }
 
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
-        {
-            _dbContext.People.Add(person);
-            await _dbContext.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetPerson), new { id = person.Id}, person);
+        {   
+            await _repository.Insert(person);
+            return CreatedAtAction("/person", new { id = person.Id });
         }
     }
 }

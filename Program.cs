@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using my_new_app.Data;
+using my_new_app.DataAccess.Interfaces;
+using my_new_app.DataAccess.Services;
+using my_new_app.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<IRepositoryAsync<Person>, RepositoryAsync<Person>>();
 builder.Services.AddDbContext<PersonContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddEndpointsApiExplorer();
