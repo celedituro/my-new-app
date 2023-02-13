@@ -28,9 +28,9 @@ namespace my_new_app.DataAccess.Services
             return await EntitySet.ToListAsync();
         }
 
-        public async Task<T> GetById(string id)
-        {
-            return await EntitySet.FindAsync(id);
+        public async Task<T?> GetById(string id)
+        {   
+            return await EntitySet.FindAsync(id); 
         }
         public async Task<T> Insert(T entity)
         {
@@ -39,12 +39,16 @@ namespace my_new_app.DataAccess.Services
             return entity;
         }
 
-        public async Task<T> Delete(string id)
+        public async Task<T?> Delete(string id)
         {
-            T entity = await EntitySet.FindAsync(id);
-            EntitySet.Remove(entity);
-            await Save();
-            return entity;
+            T? entity = await EntitySet.FindAsync(id);
+            if(entity is not null)
+            {
+                EntitySet.Remove(entity);
+                await Save();
+                return entity;
+            }
+            return null;
         }
 
         public async Task Update(T entity)
