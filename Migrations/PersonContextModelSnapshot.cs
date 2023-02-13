@@ -32,7 +32,6 @@ namespace mynewapp.Migrations
 
                     b.Property<string>("Category")
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("text");
 
                     b.Property<DateOnly>("DateOfBirth")

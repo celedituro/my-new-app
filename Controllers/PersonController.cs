@@ -29,12 +29,8 @@ namespace my_new_app.Controllers
 
         
         [HttpGet("{id}")]
-        public async Task<ActionResult<Person>> GetPerson(string id)
+        public async Task<ActionResult<Person>> GetPerson(int id)
         {   
-            if (id is null)
-            {
-                return NotFound();
-            }
             var person = await _repository.GetById(id);
 
             if (person is null)

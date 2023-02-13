@@ -28,7 +28,7 @@ namespace my_new_app.DataAccess.Services
             return await EntitySet.ToListAsync();
         }
 
-        public async Task<T?> GetById(string id)
+        public async Task<T?> GetById(int id)
         {   
             return await EntitySet.FindAsync(id); 
         }
@@ -39,7 +39,7 @@ namespace my_new_app.DataAccess.Services
             return entity;
         }
 
-        public async Task<T?> Delete(string id)
+        public async Task<T?> Delete(int id)
         {
             T? entity = await EntitySet.FindAsync(id);
             if(entity is not null)

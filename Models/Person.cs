@@ -16,7 +16,6 @@ namespace my_new_app.Models
         [Required]
         public DateOnly DateOfBirth { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string Category { get; set; } = " ";
     }
 }
