@@ -57,19 +57,31 @@ namespace my_new_app.Controllers
         }
 
         [HttpGet("name={name}")]
-        public ActionResult<Person> GetPersonByName(string name)
+        public ActionResult<IEnumerable<Person>> FilterByName(string name)
         {
             if (name is null)
             {
                 return NotFound();
             }
-            var person = _repository.GetByName(name);
+            var people = _repository.GetByName(name);
 
-            if (person is null)
+            if (people is null)
             {
                 return NotFound();
             }
-            return Ok(person);
+            return Ok(people);
+        }
+
+        [HttpGet("dateOfBirth={dateOfBirth}")]
+        public ActionResult<IEnumerable<Person>> FilterByDateOfBirth(DateOnly dateOfBirth)
+        {
+            var people = _repository.GetByDateOfBirth(dateOfBirth);
+
+            if (people is null)
+            {
+                return NotFound();
+            }
+            return Ok(people);
         }
     }
 }

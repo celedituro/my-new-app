@@ -20,5 +20,10 @@ namespace my_new_app.DataAccess.Services
             return EntitySet.Where(x => x.Name.Equals(name));
         }
 
+        public IEnumerable<Person> GetByDateOfBirth(DateOnly dateOfBirth)
+        {
+            return EntitySet.Where(x => x.DateOfBirth.Equals(dateOfBirth));
+        }
+
     }
 }
