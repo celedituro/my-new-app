@@ -19,20 +19,39 @@ namespace my_new_app.Controllers
         public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
         {
             var data = await _repository.GetAll();
+
+            if (data is null)
+            {
+                return NotFound();
+            };
             return Ok(data);
         }
 
         
         [HttpGet("{id}")]
         public async Task<ActionResult<Person>> GetPerson(string id)
-        {
+        {   
+            if (id is null)
+            {
+                return NotFound();
+            }
             var person = await _repository.GetById(id);
-            return person;
+
+            if (person is null)
+            {
+                return NotFound();
+            }
+            return Ok(person);
         }
 
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {   
+            if (person is null)
+            {
+                return NotFound();
+            }
+
             await _repository.Insert(person);
             return CreatedAtAction("/person", new { id = person.Id });
         }
