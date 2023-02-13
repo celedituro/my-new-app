@@ -1,14 +1,16 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using my_new_app.Data;
 using my_new_app.DataAccess.Interfaces;
+using my_new_app.Models;
 
 namespace my_new_app.DataAccess.Services
 {
-    public class RepositoryAsync<T> : IRepositoryAsync<T> where T : class
+    public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         private readonly PersonContext context;
 
-        public RepositoryAsync(PersonContext context)
+        public RepositoryBase(PersonContext context)
         {
             this.context = context;
         }

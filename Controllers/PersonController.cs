@@ -8,9 +8,9 @@ namespace my_new_app.Controllers
     [Route("person")]
     public class PersonController : ControllerBase
     {
-        private readonly IRepositoryAsync<Person> _repository;
+        private readonly IPersonRepository _repository;
 
-        public PersonController(IRepositoryAsync<Person> repository)
+        public PersonController(IPersonRepository repository)
         {
             _repository = repository;
         }
@@ -54,6 +54,22 @@ namespace my_new_app.Controllers
 
             await _repository.Insert(person);
             return CreatedAtAction("/person", new { id = person.Id });
+        }
+
+        [HttpGet("name={name}")]
+        public ActionResult<Person> GetPersonByName(string name)
+        {
+            if (name is null)
+            {
+                return NotFound();
+            }
+            var person = _repository.GetByName(name);
+
+            if (person is null)
+            {
+                return NotFound();
+            }
+            return Ok(person);
         }
     }
 }
