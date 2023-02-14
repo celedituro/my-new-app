@@ -1,0 +1,15 @@
+.containerSearch {
+  align-items: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 2%;
+}
+ 
+.inputSearch {
+  width: 32%;
+}
+
+.buttonSearch {
+  width: 5%;
+  margin-left: 0.5%;
+}
