@@ -2,19 +2,17 @@ import { useEffect, useState} from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import '../FetchData.css';
+import { faEraser } from '@fortawesome/free-solid-svg-icons';
+import '../styles/FetchData.css';
 
 const FetchData = () => {
-    const [search, setSearch] = useState("");
     const [people, setPeople] = useState([]);
-    const [peopleTable, setPeopleTable] = useState([]);
 
     const getPeople = async () => {
         try {
+            console.log('getpeople');
             const response = await axios.get("https://localhost:44425/people");
             setPeople(response.data);
-            setPeopleTable(response.data);
             console.log(response.data);
         } catch(error) {
             console.log(error);
@@ -27,25 +25,22 @@ const FetchData = () => {
 
     const handleChange = e => {
         console.log("Búsqueda:", e.target.value);
-        setSearch(e.target.value);
-        filter(e.target.value);
+        handleSearch(e.target.value);
     }
 
-    const filter = (query) => {
-        // eslint-disable-next-line array-callback-return
-        var searchResult = peopleTable.filter((element) => {
-            console.log('query:', query);
-            console.log('element:', element);
-            var elementName = element.name.toString().toLowerCase();
-            console.log('elementName:', elementName);
-            var elementDateOfBirth = element.dateOfBirth.toString();
-            console.log('elementDate:', elementDateOfBirth);
-            if(elementName.includes(query.toLowerCase())
-            || elementDateOfBirth.includes(query)){
-                return element;
-            } 
-        });
-        setPeople(searchResult);
+    const handleSearch = async (search) => {
+        try {
+            console.log('searchpeople:', search);
+            const response = await axios.get('https://localhost:44425/people/search', { params: { word: search } });
+            setPeople(response.data);
+            console.log('people filtered:', people);
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    const handleClean = () => {
+        getPeople();
     }
 
     return (
@@ -53,12 +48,11 @@ const FetchData = () => {
                 <form className="containerSearch">
                     <input
                         className="form-control inputSearch"
-                        value={search}
-                        placeholder="Búsqueda por Nombre o Fecha de nacimiento"
+                        placeholder="Búsqueda por Nombre o Categoría"
                         onChange={handleChange}
                     />
-                    <button type="submit" className="btn btn-success buttonSearch">
-                        <FontAwesomeIcon icon={faSearch}/>
+                    <button type="submit" className="btn btn-primary buttonClean" onClick={handleClean}>
+                        <FontAwesomeIcon icon={faEraser} />
                     </button>
                 </form>
             <div className="table-responsive">
