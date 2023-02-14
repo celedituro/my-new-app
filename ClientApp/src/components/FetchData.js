@@ -12,7 +12,7 @@ const FetchData = () => {
 
     const getPeople = async () => {
         try {
-            const response = await axios.get("https://localhost:44425/person");
+            const response = await axios.get("https://localhost:44425/people");
             setPeople(response.data);
             setPeopleTable(response.data);
             console.log(response.data);

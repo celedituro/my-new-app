@@ -8,7 +8,6 @@ namespace my_new_app.DataAccess.Interfaces
 {
     public interface IPersonRepository : IRepositoryBase<Person>
     {
-        IEnumerable<Person> GetByName(string name);
-        IEnumerable<Person> GetByDateOfBirth(DateOnly dateOfBirth);
+        IEnumerable<Person> FilterByNameOrCategory(string search);
     }
 }

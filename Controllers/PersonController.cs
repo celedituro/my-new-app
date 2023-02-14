@@ -5,7 +5,7 @@ using my_new_app.Models;
 namespace my_new_app.Controllers
 {
     [ApiController]
-    [Route("person")]
+    [Route("people")]
     public class PersonController : ControllerBase
     {
         private readonly IPersonRepository _repository;
@@ -49,29 +49,17 @@ namespace my_new_app.Controllers
             }
 
             await _repository.Insert(person);
-            return CreatedAtAction("/person", new { id = person.Id });
+            return CreatedAtAction("/people", new { id = person.Id });
         }
 
-        [HttpGet("name={name}")]
-        public ActionResult<IEnumerable<Person>> FilterByName(string name)
+        [HttpGet("search")]
+        public ActionResult<IEnumerable<Person>> Index(string word)
         {
-            if (name is null)
+            if (word is null)
             {
                 return NotFound();
             }
-            var people = _repository.GetByName(name);
-
-            if (people is null)
-            {
-                return NotFound();
-            }
-            return Ok(people);
-        }
-
-        [HttpGet("dateOfBirth={dateOfBirth}")]
-        public ActionResult<IEnumerable<Person>> FilterByDateOfBirth(DateOnly dateOfBirth)
-        {
-            var people = _repository.GetByDateOfBirth(dateOfBirth);
+            var people = _repository.FilterByNameOrCategory(word);
 
             if (people is null)
             {

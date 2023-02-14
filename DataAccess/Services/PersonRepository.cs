@@ -15,15 +15,9 @@ namespace my_new_app.DataAccess.Services
         }
 
 
-        public IEnumerable<Person> GetByName(string name)
+        public IEnumerable<Person> FilterByNameOrCategory(string search)
         {
-            return EntitySet.Where(x => x.Name.Equals(name));
+            return EntitySet.Where(x => x.Name.ToLower().Contains(search.ToLower()) || x.Category.ToLower().Contains(search.ToLower()));
         }
-
-        public IEnumerable<Person> GetByDateOfBirth(DateOnly dateOfBirth)
-        {
-            return EntitySet.Where(x => x.DateOfBirth.Equals(dateOfBirth));
-        }
-
     }
 }
