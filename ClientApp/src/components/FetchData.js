@@ -10,7 +10,6 @@ const FetchData = () => {
 
     const getPeople = async () => {
         try {
-            console.log('getpeople');
             const response = await axios.get("https://localhost:44425/people");
             setPeople(response.data);
             console.log(response.data);
@@ -24,16 +23,13 @@ const FetchData = () => {
     }, [])
 
     const handleChange = e => {
-        console.log("Búsqueda:", e.target.value);
         handleSearch(e.target.value);
     }
 
     const handleSearch = async (search) => {
         try {
-            console.log('searchpeople:', search);
             const response = await axios.get('https://localhost:44425/people/search', { params: { word: search } });
             setPeople(response.data);
-            console.log('people filtered:', people);
         } catch(error) {
             console.log(error);
         }
@@ -44,17 +40,17 @@ const FetchData = () => {
     }
 
     return (
-        <div className="App">
-                <form className="containerSearch">
-                    <input
-                        className="form-control inputSearch"
-                        placeholder="Búsqueda por Nombre o Categoría"
-                        onChange={handleChange}
-                    />
-                    <button type="submit" className="btn btn-primary buttonClean" onClick={handleClean}>
-                        <FontAwesomeIcon icon={faEraser} />
-                    </button>
-                </form>
+        <div>
+            <div className="containerSearch">
+                <input
+                    className="form-control inputSearch"
+                    placeholder="Búsqueda por Nombre o Categoría"
+                    onChange={handleChange}
+                />
+                <button type="submit" className="btn btn-primary buttonClean" onClick={handleClean}>
+                    <FontAwesomeIcon icon={faEraser} />
+                </button>
+            </div>
             <div className="table-responsive">
                 <table className="table table-striped" aria-labelledby="tableLabel">
                     <thead>
