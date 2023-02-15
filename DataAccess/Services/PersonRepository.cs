@@ -17,7 +17,7 @@ namespace my_new_app.DataAccess.Services
 
         public IEnumerable<Person> FilterByNameOrCategory(string search)
         {   
-            return EntitySet.Where(x => x.Name.ToLower().Equals(search.ToLower()) || x.Category.ToLower().Equals(search.ToLower()));
+            return EntitySet.Where(x => x.Name.ToLower().StartsWith(search.ToLower()) || x.Category.ToLower().StartsWith(search.ToLower()));
         }
     }
 }
