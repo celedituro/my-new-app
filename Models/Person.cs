@@ -8,7 +8,7 @@ namespace my_new_app.Models
     public class Person
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         [Required]
         public string Name { get; set; } = " ";
@@ -16,6 +16,6 @@ namespace my_new_app.Models
         [Required]
         public DateOnly DateOfBirth { get; set; }
 
-        public string Category { get; set; } = " ";
+        public string? Category { get; set; }
     }
 }

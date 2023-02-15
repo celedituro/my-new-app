@@ -13,17 +13,16 @@ const Form = () => {
         var value = event.target.value
         formValue[key] = value;
     }
-    
+
     const handlePost = async () => {      
         try {
             const response = await axios({
                 method: "post",
                 url: "https://localhost:44425/people",
                 data: {
-                    id: 17,
                     name: formValue.name,
                     dateOfBirth: formValue.dateOfBirth,
-                    category: "string"
+                    category: null
                 },
                 headers: { "Content-Type": "application/json" },
             });
