@@ -20,7 +20,7 @@ namespace mynewapp.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
-                    Category = table.Column<string>(type: "text", nullable: false)
+                    Category = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

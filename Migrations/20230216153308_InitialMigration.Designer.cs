@@ -12,8 +12,8 @@ using my_new_app.Data;
 namespace mynewapp.Migrations
 {
     [DbContext(typeof(PersonContext))]
-    [Migration("20230215210802_categoryColumnHasPublicSet")]
-    partial class categoryColumnHasPublicSet
+    [Migration("20230216153308_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

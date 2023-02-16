@@ -17,5 +17,6 @@ namespace my_new_app.Models
         public DateOnly DateOfBirth { get; set; }
 
         public string? Category { get; set; }
+
     }
 }
