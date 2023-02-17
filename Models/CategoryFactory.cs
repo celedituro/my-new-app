@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using my_new_app.Models;
 
 namespace my_new_app.Models
 {
+    [NotMapped]
     public class CategoryFactory
     {
         public const String CHILD = "Niño";
@@ -29,7 +31,7 @@ namespace my_new_app.Models
             this.categories = this.InitializeCategories();
         }
 
-        public Category CreateCategory(DateTime birth)
+        public Category CreateCategory(DateOnly birth)
         {
             String name = this.mapper.Map(birth);
             return this.categories[name];

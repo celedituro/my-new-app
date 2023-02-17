@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace my_new_app.Models
 {
+    [NotMapped]
     public class AgeCalculator
     {   
-        public int Calculate(DateTime birth)
+        public int Calculate(DateOnly birth)
         {
             DateTime today = DateTime.Today;
             int age = today.Year - birth.Year;

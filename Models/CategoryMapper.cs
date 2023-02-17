@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace my_new_app.Models
 {
+    [NotMapped]
     public class CategoryMapper
     {
         public const int CHILD_AGE_MAX = 10;
@@ -21,7 +23,7 @@ namespace my_new_app.Models
             this.calculator = calculator;
         }
 
-        public String Map(DateTime birth)
+        public String Map(DateOnly birth)
         {
             int age = this.calculator.Calculate(birth);
             if(age <= CHILD_AGE_MAX)

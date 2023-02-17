@@ -12,7 +12,7 @@ namespace Tests
         [Fact]
         public void Test1()
         {   
-            DateTime birth = new DateTime(2000,03,30);
+            DateOnly birth = new DateOnly(2000,03,30);
             AgeCalculator calculator = new AgeCalculator();
             int ageCalculated = calculator.Calculate(birth);
             int ageExpected = 22;
@@ -22,7 +22,7 @@ namespace Tests
         [Fact]
         public void Test2()
         {   
-            DateTime birth = new DateTime(1996,02,01);
+            DateOnly birth = new DateOnly(1996,02,01);
             AgeCalculator calculator = new AgeCalculator();
             int ageCalculated = calculator.Calculate(birth);
             int ageExpected = 27;

@@ -12,7 +12,7 @@ namespace Tests
         [Fact]
         public void ChildTest()
         {   
-            DateTime birth = new DateTime(2022,02,01);
+            DateOnly birth = new DateOnly(2022,02,01);
             AgeCalculator calculator = new AgeCalculator();
             CategoryMapper mapper = new CategoryMapper(calculator);
 
@@ -25,7 +25,7 @@ namespace Tests
         [Fact]
         public void TeenTest()
         {   
-            DateTime birth = new DateTime(2006,02,01);
+            DateOnly birth = new DateOnly(2006,02,01);
             AgeCalculator calculator = new AgeCalculator();
             CategoryMapper mapper = new CategoryMapper(calculator);
 
@@ -38,7 +38,7 @@ namespace Tests
         [Fact]
         public void AdultTest()
         {   
-            DateTime birth = new DateTime(1974,02,01);
+            DateOnly birth = new DateOnly(1974,02,01);
             AgeCalculator calculator = new AgeCalculator();
             CategoryMapper mapper = new CategoryMapper(calculator);
 
@@ -51,7 +51,7 @@ namespace Tests
         [Fact]
         public void OctogenarianTest()
         {   
-            DateTime birth = new DateTime(1930,02,01);
+            DateOnly birth = new DateOnly(1930,02,01);
             AgeCalculator calculator = new AgeCalculator();
             CategoryMapper mapper = new CategoryMapper(calculator);
 
