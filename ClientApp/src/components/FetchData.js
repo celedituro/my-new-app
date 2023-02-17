@@ -58,7 +58,6 @@ const FetchData = () => {
                         <th>Id</th>
                         <th>Nombre</th>
                         <th>Fecha de nacimiento</th>
-                        <th>Categoria</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +66,6 @@ const FetchData = () => {
                             <td>{person.id}</td>
                             <td>{person.name}</td>
                             <td>{person.dateOfBirth}</td>
-                            <td>{person.category}</td>
                         </tr>
                         )}
                     </tbody>
