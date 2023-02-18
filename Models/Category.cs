@@ -15,7 +15,7 @@ namespace my_new_app.Models
             get;
         }
 
-        protected Person _person;
+        protected Person? _person;
 
         public void SetContext(Person person)
         {
@@ -37,7 +37,10 @@ namespace my_new_app.Models
 
         public override void GetOlder()
         {
-            this._person.TransitionTo(new TeenCategory());
+            if(this._person is not null)
+            {
+                this._person.TransitionTo(new TeenCategory());
+            }
         }
     }  
 
@@ -54,7 +57,10 @@ namespace my_new_app.Models
 
         public override void GetOlder()
         {
-            this._person.TransitionTo(new AdultCategory());
+            if(this._person is not null)
+            {
+                this._person.TransitionTo(new AdultCategory());
+            }
         }
     }
 
@@ -71,7 +77,10 @@ namespace my_new_app.Models
 
         public override void GetOlder()
         {
-            this._person.TransitionTo(new OctogenarianCategory());
+            if(this._person is not null)
+            {
+                this._person.TransitionTo(new OctogenarianCategory());
+            }
         }
     }
 
@@ -87,8 +96,11 @@ namespace my_new_app.Models
         }
 
         public override void GetOlder()
-        {
-            this._person.TransitionTo(this);
+        {   
+            if(this._person is not null)
+            {
+                this._person.TransitionTo(this);
+            }
         }
     }
 }
