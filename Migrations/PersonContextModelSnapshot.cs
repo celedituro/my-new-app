@@ -30,6 +30,10 @@ namespace mynewapp.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("text")
+                        .HasColumnName("Category");
+
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
 

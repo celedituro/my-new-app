@@ -12,7 +12,7 @@ using my_new_app.Data;
 namespace mynewapp.Migrations
 {
     [DbContext(typeof(PersonContext))]
-    [Migration("20230217180026_InitialMigration")]
+    [Migration("20230218153826_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -32,6 +32,10 @@ namespace mynewapp.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("text")
+                        .HasColumnName("Category");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");

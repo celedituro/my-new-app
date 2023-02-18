@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace my_new_app.Models
 {
-    [NotMapped]
+    [Keyless]
     public abstract class Category
     {
         public abstract String Name
         {
             get;
         }
+
+        protected Person _person;
+
+        public void SetContext(Person person)
+        {
+            this._person = person;
+        }
+
+        public abstract void GetOlder();
     }
-    [NotMapped]
     public class ChildCategory : Category
     {
         public const String CHILD = "Niño";
@@ -25,9 +34,13 @@ namespace my_new_app.Models
                 return CHILD;
             }
         }
+
+        public override void GetOlder()
+        {
+            this._person.TransitionTo(new TeenCategory());
+        }
     }  
 
-    [NotMapped]
     public class TeenCategory : Category
     {
         public const String TEEN = "Adolescente";
@@ -38,9 +51,13 @@ namespace my_new_app.Models
                 return TEEN;
             }
         }
+
+        public override void GetOlder()
+        {
+            this._person.TransitionTo(new AdultCategory());
+        }
     }
 
-    [NotMapped]
     public class AdultCategory : Category
     {
         public const String ADULT = "Adulto";
@@ -51,9 +68,13 @@ namespace my_new_app.Models
                 return ADULT;
             }
         }
+
+        public override void GetOlder()
+        {
+            this._person.TransitionTo(new OctogenarianCategory());
+        }
     }
 
-    [NotMapped]
     public class OctogenarianCategory : Category
     {
         public const String OCTOGENARIAN = "Octogenario";
@@ -63,6 +84,11 @@ namespace my_new_app.Models
             {
                 return OCTOGENARIAN;
             }
+        }
+
+        public override void GetOlder()
+        {
+            this._person.TransitionTo(this);
         }
     }
 }

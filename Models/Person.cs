@@ -15,5 +15,18 @@ namespace my_new_app.Models
 
         [Required]
         public DateOnly DateOfBirth { get; set; }
+
+        [NotMapped]
+        public Category? Category { get; private set; }
+
+        [Column("Category")]
+        public String? CategoryName { get; private set; }
+
+        public void TransitionTo(Category category)
+        {
+            this.CategoryName = category.Name;
+            this.Category = category;
+            this.Category.SetContext(this);
+        }
     }
 }

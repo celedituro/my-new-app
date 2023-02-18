@@ -22,6 +22,9 @@ const Form = () => {
                 data: {
                     name: formValue.name,
                     dateOfBirth: formValue.dateOfBirth,
+                    category: {
+                        name: null
+                    }
                 },
                 headers: { "Content-Type": "application/json" },
             });

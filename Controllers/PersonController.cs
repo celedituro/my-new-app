@@ -49,6 +49,12 @@ namespace my_new_app.Controllers
                 return NotFound();
             }
 
+            AgeCalculator calculator = new AgeCalculator();
+            CategoryMapper mapper = new CategoryMapper(calculator);
+            CategoryFactory factory = new CategoryFactory(mapper);
+            Category category = factory.CreateCategory(person.DateOfBirth);
+            person.TransitionTo(category);
+
             await _repository.Insert(person);
             return CreatedAtAction("/people", new { id = person.Id });
         }
