@@ -14,7 +14,6 @@ namespace my_new_app.DataAccess.Services
         {
         }
 
-
         public IEnumerable<Person> FilterByNameOrCategory(string search)
         {   
             return EntitySet.Where(x =>  
