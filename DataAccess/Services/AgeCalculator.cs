@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using my_new_app.DataAccess.Interfaces;
 
-namespace my_new_app.Models
+namespace my_new_app.DataAccess.Services
 {
     [NotMapped]
-    public class AgeCalculator
+    public class AgeCalculator : IAgeCalculator
     {   
         public int Calculate(DateOnly birth)
         {

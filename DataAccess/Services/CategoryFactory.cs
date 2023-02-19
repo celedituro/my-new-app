@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using my_new_app.DataAccess.Interfaces;
 using my_new_app.Models;
 
-namespace my_new_app.Models
+namespace my_new_app.DataAccess.Services
 {
     [NotMapped]
-    public class CategoryFactory
+    public class CategoryFactory : ICategoryFactory
     {
         public const String CHILD = "Niño";
         public const String TEEN = "Adolescente";
@@ -14,7 +15,7 @@ namespace my_new_app.Models
         private CategoryMapper mapper;
         private Dictionary<String, Category> categories;
 
-        private Dictionary<String, Category> InitializeCategories()
+        public Dictionary<String, Category> InitializeCategories()
         {
             Dictionary<String, Category> categories = new Dictionary<String, Category>();
             categories.Add(CHILD, new ChildCategory());

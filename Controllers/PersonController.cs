@@ -11,24 +11,30 @@ namespace my_new_app.Controllers
     public class PersonController : ControllerBase
     {
         private readonly IPersonRepository _repository;
+        private readonly IAgeCalculator _calculator;
 
-        public PersonController(IPersonRepository repository)
+        private readonly ICategoryMapper _mapper;
+
+        private readonly ICategoryFactory _factory;
+
+        public PersonController(IPersonRepository repository, IAgeCalculator calculator, ICategoryMapper mapper, ICategoryFactory factory)
         {
             _repository = repository;
+            _calculator = calculator;
+            _mapper = mapper;
+            _factory = factory;
         }
 
-        public async void UpdatePeople(IEnumerable<Person> people)
+        public async Task<ActionResult> UpdatePeople(IEnumerable<Person> people)
         {
-            AgeCalculator calculator = new AgeCalculator();
-            CategoryMapper mapper = new CategoryMapper(calculator);
-            CategoryFactory factory = new CategoryFactory(mapper);
             for(int idx = 0; idx < people.Count(); idx++)
             {
                 var person = people.ElementAt(idx);;
-                Category category = factory.CreateCategory(person.DateOfBirth);
+                Category category = this._factory.CreateCategory(person.DateOfBirth);
                 person.TransitionTo(category);
-               await  _repository.Update(person);
+                await  _repository.Update(person);
             }
+            return Ok();
         }
 
         [HttpGet]
@@ -40,7 +46,7 @@ namespace my_new_app.Controllers
                 return NotFound();
             };
 
-            this.UpdatePeople(data);
+            await this.UpdatePeople(data);
             return Ok(data);
         }
         
@@ -58,10 +64,7 @@ namespace my_new_app.Controllers
 
         public void SetCategoryTo(Person person)
         {
-            AgeCalculator calculator = new AgeCalculator();
-            CategoryMapper mapper = new CategoryMapper(calculator);
-            CategoryFactory factory = new CategoryFactory(mapper);
-            Category category = factory.CreateCategory(person.DateOfBirth);
+            Category category = this._factory.CreateCategory(person.DateOfBirth);
             person.TransitionTo(category);
         }
 
