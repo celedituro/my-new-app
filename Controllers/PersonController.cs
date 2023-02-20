@@ -1,5 +1,3 @@
-using System.Data.Common;
-using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using my_new_app.DataAccess.Interfaces;
 using my_new_app.Models;
@@ -23,7 +21,8 @@ namespace my_new_app.Controllers
             _mapper = mapper;
             _factory = factory;
         }
-
+        
+        [HttpPut]
         public async Task<ActionResult> UpdateCategoryOF(IEnumerable<Person> people)
         {
             for(int idx = 0; idx < people.Count(); idx++)
@@ -64,12 +63,6 @@ namespace my_new_app.Controllers
             return Ok(person);
         }
 
-        public void SetCategoryTo(Person person)
-        {
-            Category category = this._factory.CreateCategory(person.DateOfBirth);
-            person.TransitionTo(category);            
-        }
-
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {   
@@ -78,7 +71,8 @@ namespace my_new_app.Controllers
                 return NotFound();
             }
 
-            this.SetCategoryTo(person);
+            Category category = this._factory.CreateCategory(person.DateOfBirth);
+            person.TransitionTo(category);              
             await _repository.Insert(person);
             return CreatedAtAction("/people", new { id = person.Id });
         }
