@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Moq;
 using my_new_app.DataAccess.Services;
 using my_new_app.Models;
-using Xunit;
 
 namespace Tests
 {
@@ -14,20 +10,22 @@ namespace Tests
         public void Test1()
         {   
             DateOnly birth = new DateOnly(2000,03,30);
-            AgeCalculator calculator = new AgeCalculator();
-            int ageCalculated = calculator.Calculate(birth);
-            int ageExpected = 22;
-            Assert.Equal(ageExpected, ageCalculated);
+            var mock = new Mock<DateProvider>();
+            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,19));
+            AgeCalculator calculator = new AgeCalculator(mock.Object);
+
+            Assert.Equal(22, calculator.Calculate(birth));
         }
 
         [Fact]
         public void Test2()
         {   
             DateOnly birth = new DateOnly(1996,02,01);
-            AgeCalculator calculator = new AgeCalculator();
-            int ageCalculated = calculator.Calculate(birth);
-            int ageExpected = 27;
-            Assert.Equal(ageExpected, ageCalculated);
+            var mock = new Mock<DateProvider>();
+            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,19));
+            AgeCalculator calculator = new AgeCalculator(mock.Object);
+
+            Assert.Equal(27, calculator.Calculate(birth));
         }
     }
 }

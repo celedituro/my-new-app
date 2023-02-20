@@ -7,6 +7,7 @@ using my_new_app.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<DateProvider>();
 builder.Services.AddSingleton<AgeCalculator>();
 builder.Services.AddScoped<IAgeCalculator, AgeCalculator>();
 builder.Services.AddSingleton<CategoryMapper>();
