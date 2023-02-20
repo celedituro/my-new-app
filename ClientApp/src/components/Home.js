@@ -3,7 +3,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEraser } from '@fortawesome/free-solid-svg-icons';
-import '../styles/FetchData.css';
+import '../styles/Home.css';
 
 const Home = () => {
     const [people, setPeople] = useState([]);

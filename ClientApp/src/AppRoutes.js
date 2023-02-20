@@ -1,14 +1,13 @@
-import { Home } from "./components/Home";
-import FetchData from "./components/Home";
+import Home from "./components/Home";
 import Form from "./components/Form";
 
 const AppRoutes = [
   {
     index: true,
-    element: <FetchData />
+    element: <Home />
   },
   {
-    path: '/form',
+    path: '/signup',
     element: <Form />
   },
 ];
