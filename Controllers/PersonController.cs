@@ -21,13 +21,21 @@ namespace my_new_app.Controllers
             _mapper = mapper;
             _factory = factory;
         }
-        
-        [HttpPut]
-        public async Task<ActionResult> UpdateCategoryOF(IEnumerable<Person> people)
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
         {
-            for(int idx = 0; idx < people.Count(); idx++)
+            var data = await _repository.GetAll();
+            if (data is null)
             {
-                var person = people.ElementAt(idx);;
+                return BadRequest();
+            };
+
+            for(int idx = 0; idx < data.Count(); idx++)
+            {
+                var person = data.ElementAt(idx);;
                 Category category = this._factory.CreateCategory(person.DateOfBirth);
                 if(category.Name != person.CategoryName)
                 {   
@@ -35,35 +43,13 @@ namespace my_new_app.Controllers
                     await  _repository.Update(person);
                 }
             }
-            return Ok();
-        }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
-        {
-            var data = await _repository.GetAll();
-            if (data is null)
-            {
-                return NotFound();
-            };
-
-            await this.UpdateCategoryOF(data);
             return Ok(data);
-        }
-        
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Person>> GetPerson(int id)
-        {   
-            var person = await _repository.GetById(id);
-
-            if (person is null)
-            {
-                return NotFound();
-            }
-            return Ok(person);
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {   
             if (person is null)
@@ -78,11 +64,14 @@ namespace my_new_app.Controllers
         }
 
         [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<IEnumerable<Person>> Index(string word)
         {
             if (word is null)
             {
-                return NotFound();
+                return BadRequest();
             }
             var people = _repository.FilterByNameOrCategory(word);
 
