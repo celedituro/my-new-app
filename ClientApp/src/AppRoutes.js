@@ -1,20 +1,16 @@
 import { Home } from "./components/Home";
-import FetchData from "./components/FetchData";
+import FetchData from "./components/Home";
 import Form from "./components/Form";
 
 const AppRoutes = [
   {
     index: true,
-    element: <Home />
+    element: <FetchData />
   },
   {
     path: '/form',
     element: <Form />
   },
-  {
-    path: '/table',
-    element: <FetchData />
-  }
 ];
 
 export default AppRoutes;
