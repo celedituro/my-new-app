@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using my_new_app.DataAccess.Interfaces;
 using my_new_app.Models;
+using my_new_app.Services.Interfaces;
 
 namespace my_new_app.Controllers
 {
@@ -12,9 +13,7 @@ namespace my_new_app.Controllers
     {
         private readonly IPersonRepository _repository;
         private readonly IAgeCalculator _calculator;
-
         private readonly ICategoryMapper _mapper;
-
         private readonly ICategoryFactory _factory;
 
         public PersonController(IPersonRepository repository, IAgeCalculator calculator, ICategoryMapper mapper, ICategoryFactory factory)
@@ -25,14 +24,17 @@ namespace my_new_app.Controllers
             _factory = factory;
         }
 
-        public async Task<ActionResult> UpdatePeople(IEnumerable<Person> people)
+        public async Task<ActionResult> UpdateCategoryOF(IEnumerable<Person> people)
         {
             for(int idx = 0; idx < people.Count(); idx++)
             {
                 var person = people.ElementAt(idx);;
                 Category category = this._factory.CreateCategory(person.DateOfBirth);
-                person.TransitionTo(category);
-                await  _repository.Update(person);
+                if(category.Name != person.CategoryName)
+                {   
+                    person.GetOlder();
+                    await  _repository.Update(person);
+                }
             }
             return Ok();
         }
@@ -46,7 +48,7 @@ namespace my_new_app.Controllers
                 return NotFound();
             };
 
-            await this.UpdatePeople(data);
+            await this.UpdateCategoryOF(data);
             return Ok(data);
         }
         
@@ -65,7 +67,7 @@ namespace my_new_app.Controllers
         public void SetCategoryTo(Person person)
         {
             Category category = this._factory.CreateCategory(person.DateOfBirth);
-            person.TransitionTo(category);
+            person.TransitionTo(category);            
         }
 
         [HttpPost]

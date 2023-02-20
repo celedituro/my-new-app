@@ -7,7 +7,7 @@ const AppRoutes = [
     element: <Home />
   },
   {
-    path: '/signup',
+    path: '/form',
     element: <Form />
   },
 ];

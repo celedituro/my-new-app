@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using my_new_app.Models;
 
-namespace my_new_app.DataAccess.Interfaces
+namespace my_new_app.Services.Interfaces
 {
     public interface ICategoryFactory
     {

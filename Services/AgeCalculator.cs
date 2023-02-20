@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 using my_new_app.DataAccess.Interfaces;
-using my_new_app.Models;
+using my_new_app.Services.Interfaces;
 
-namespace my_new_app.DataAccess.Services
+namespace my_new_app.Services
 {
     [NotMapped]
     public class AgeCalculator : IAgeCalculator

@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Moq;
-using my_new_app.DataAccess.Services;
 using my_new_app.Models;
-using Xunit;
+using my_new_app.Services;
 
 namespace Tests
 {

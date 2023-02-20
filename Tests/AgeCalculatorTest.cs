@@ -1,6 +1,7 @@
 using Moq;
-using my_new_app.DataAccess.Services;
 using my_new_app.Models;
+using my_new_app.Services;
+using my_new_app.Services.Interfaces;
 
 namespace Tests
 {

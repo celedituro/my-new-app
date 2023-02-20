@@ -3,6 +3,8 @@ using my_new_app.Data;
 using my_new_app.DataAccess.Interfaces;
 using my_new_app.DataAccess.Services;
 using my_new_app.Models;
+using my_new_app.Services;
+using my_new_app.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

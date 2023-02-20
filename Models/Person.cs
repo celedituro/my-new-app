@@ -17,7 +17,7 @@ namespace my_new_app.Models
         public DateOnly DateOfBirth { get; set; }
 
         [NotMapped]
-        public Category? Category { get; private set; }
+        private Category? Category { get; set; }
 
         [Column("Category")]
         public String? CategoryName { get; private set; }
@@ -27,6 +27,14 @@ namespace my_new_app.Models
             this.CategoryName = category.Name;
             this.Category = category;
             this.Category.SetContext(this);
+        }
+
+        public void GetOlder()
+        {
+            if(this.Category is not null)
+            {
+                this.Category.GetOlder();
+            }
         }
     }
 }

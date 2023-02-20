@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using my_new_app.DataAccess.Interfaces;
 using my_new_app.Models;
+using my_new_app.Services.Interfaces;
 
-namespace my_new_app.DataAccess.Services
+namespace my_new_app.Services
 {
     [NotMapped]
     public class CategoryFactory : ICategoryFactory
