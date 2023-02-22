@@ -10,7 +10,7 @@ const Home = () => {
 
     const getPeople = async () => {
         try {
-            const response = await axios.get("https://localhost:44425/people");
+            const response = await axios.get("https://localhost:44425/people/all");
             setPeople(response.data);
             console.log(response.data);
         } catch(error) {
@@ -28,7 +28,7 @@ const Home = () => {
 
     const handleSearch = async (search) => {
         try {
-            const response = await axios.get('https://localhost:44425/people/search', { params: { word: search } });
+            const response = await axios.get('https://localhost:44425/people', { params: { word: search } });
             setPeople(response.data);
         } catch(error) {
             console.log(error);

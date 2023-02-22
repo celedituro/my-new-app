@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using my_new_app.DataAccess.Interfaces;
 using my_new_app.Models;
 using my_new_app.Services.Interfaces;
@@ -22,7 +23,7 @@ namespace my_new_app.Controllers
             _factory = factory;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
@@ -63,11 +64,11 @@ namespace my_new_app.Controllers
             return CreatedAtAction("/people", new { id = person.Id });
         }
 
-        [HttpGet("search")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<IEnumerable<Person>> Index(string word)
+        public ActionResult<IEnumerable<Person>> Index(String word)
         {
             if (word is null)
             {
