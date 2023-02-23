@@ -1,9 +1,14 @@
 import axios from "axios";
 import React from "react";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import CONSTANTS from "../utils/Constants";
 
 const MIN_LENGTH_NAME = 3;
 const MAX_LENGTH_NAME = 30;
-const NAME_KEY = 'nombre';
+const EMPTY = "";
+const NAME_KEY = "Name";
+const ERRORS = [CONSTANTS.INVALID_LENGTH_NAME, CONSTANTS.INVALID_NAME_WITH_NUMBERS, CONSTANTS.INVALID_FUTURE_DATE_OF_BIRTH];
 
 const Form = () => {
     // eslint-disable-next-line no-unused-vars
@@ -14,6 +19,15 @@ const Form = () => {
     const [nameError, setNameError] = React.useState('');
     const [dateOfBirthError, setDateOfBirthError] = React.useState('');
     const [isValid, setIsValid] = React.useState(true);
+    const [show, setShow] = React.useState(false);
+
+    React.useEffect(() => {
+        setNameError('');
+        setDateOfBirthError('');
+    }, ]);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleChange = (event) => {
         var key = event.target.id;
@@ -30,24 +44,30 @@ const Form = () => {
     }
 
     function showErrors(errors) {
-        for (const i in errors) {
-            var err = errors[i];
-            if (err.includes(NAME_KEY)) {
-                setNameError(err);
-            } else {
-                setDateOfBirthError(err);
+        for (const key in errors) {
+            const err = errors[key][0];
+            if (ERRORS.includes(err)) {
+                if (key === NAME_KEY) {
+                    if (nameError === EMPTY) {
+                        setNameError(err);
+                    }
+                } else {
+                    if (dateOfBirthError === EMPTY) {
+                        setDateOfBirthError(err);
+                    }
+                }
+                setIsValid(false);
             }
-            setIsValid(false);
         }
     }
 
     const validateName = () => {
         if (isLengthValid(formValue.name.length)) {
-            setNameError('Ingresar entre 3 y 30 letras');
+            setNameError(CONSTANTS.INVALID_LENGTH_NAME);
             setIsValid(false);
         }
         if (hasNumber(formValue.name)) {
-            setNameError('No ingresar números');
+            setNameError(CONSTANTS.INVALID_NAME_WITH_NUMBERS);
             setIsValid(false);
         }
     }
@@ -67,6 +87,7 @@ const Form = () => {
                     headers: { "Content-Type": "application/json" },
                 });
                 console.log(response.data);
+                handleShow();
             }
         } catch(error) {
             const errors = error.response.data.errors;
@@ -119,6 +140,17 @@ const Form = () => {
                                 </div>
                                 <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Enviar</button>
                             </form>
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Información</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>Se ha agregado a {formValue.name} éxitosamente</Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleClose}>
+                                        Cerrar
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
                         </div>
                     </div>
                 </div>
