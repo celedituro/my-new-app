@@ -24,7 +24,7 @@ const Form = () => {
     React.useEffect(() => {
         setNameError('');
         setDateOfBirthError('');
-    }, ]);
+    }, [show]);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
