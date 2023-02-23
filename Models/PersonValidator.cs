@@ -7,13 +7,13 @@ namespace my_new_app.Models
         public PersonValidator()
         {
             RuleFor(user => user.Name)
-                .NotEmpty().WithMessage("Please, set a value for {PropertyName}")
-                .Length(3, 30).WithMessage("Please, set a value with more than 3 and less than 30 letters for {PropertyName}")
-                .Must(BeAValidName).WithMessage("Please, set a valid value with no numbers for {PropertyName}");
+                .NotEmpty().WithMessage("Por favor, ingrese algún nombre")
+                .Length(3, 30).WithMessage("Por favor, ingrese entre 3 y 30 letras para el nombre")
+                .Must(BeAValidName).WithMessage("Por favor, no ingrese números para el nombre");
 
             RuleFor(person => person.DateOfBirth)
                 .Must(BeBeforeThanToday)
-                .WithMessage("Please, set a valid value that is not a future date for {PropertyName}");
+                .WithMessage("Por favor, ingrese una fecha anterior o igual a la de hoy como fecha de nacimiento");
         }
 
         private bool BeAValidName(string name)

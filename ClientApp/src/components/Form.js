@@ -1,33 +1,76 @@
 import axios from "axios";
 import React from "react";
 
+const MIN_LENGTH_NAME = 3;
+const MAX_LENGTH_NAME = 30;
+const NAME_KEY = 'nombre';
+
 const Form = () => {
     // eslint-disable-next-line no-unused-vars
     const [formValue, setFormValue] = React.useState({
         name: '',
         dateOfBirth: ''
-      });
-    
+    });
+    const [nameError, setNameError] = React.useState('');
+    const [dateOfBirthError, setDateOfBirthError] = React.useState('');
+    const [isValid, setIsValid] = React.useState(true);
+
     const handleChange = (event) => {
         var key = event.target.id;
         var value = event.target.value
         formValue[key] = value;
     }
 
-    const handlePost = async () => {      
+    function hasNumber(string) {
+        return /\d/.test(string);
+    }
+
+    function isLengthValid(nameLength) {
+        return (nameLength < MIN_LENGTH_NAME || nameLength > MAX_LENGTH_NAME);
+    }
+
+    function showErrors(errors) {
+        for (const i in errors) {
+            var err = errors[i];
+            if (err.includes(NAME_KEY)) {
+                setNameError(err);
+            } else {
+                setDateOfBirthError(err);
+            }
+            setIsValid(false);
+        }
+    }
+
+    const validateName = () => {
+        if (isLengthValid(formValue.name.length)) {
+            setNameError('Ingresar entre 3 y 30 letras');
+            setIsValid(false);
+        }
+        if (hasNumber(formValue.name)) {
+            setNameError('No ingresar números');
+            setIsValid(false);
+        }
+    }
+
+    const handleSubmit = async (e) => {      
         try {
-            const response = await axios({
-                method: "post",
-                url: "https://localhost:44425/people",
-                data: {
-                    name: formValue.name,
-                    dateOfBirth: formValue.dateOfBirth,
-                },
-                headers: { "Content-Type": "application/json" },
-            });
-            console.log(response.data);
+            validateName();
+            if (isValid) {
+                e.preventDefault();
+                const response = await axios({
+                    method: "post",
+                    url: "https://localhost:44425/people",
+                    data: {
+                        name: formValue.name,
+                        dateOfBirth: formValue.dateOfBirth,
+                    },
+                    headers: { "Content-Type": "application/json" },
+                });
+                console.log(response.data);
+            }
         } catch(error) {
-            console.log(error)
+            const errors = error.response.data.errors;
+            showErrors(errors);
         }
     };
 
@@ -50,6 +93,9 @@ const Form = () => {
                                                 onChange={handleChange}
                                                 required/>
                                         </div>
+                                        <div>
+                                            <p className="text-danger">{nameError}</p>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -66,9 +112,12 @@ const Form = () => {
                                                     required/>
                                             </div>
                                         </div>
+                                        <div>
+                                            <p className="text-danger">{dateOfBirthError}</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <button type="submit" className="btn btn-primary" onClick={handlePost}>Enviar</button>
+                                <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Enviar</button>
                             </form>
                         </div>
                     </div>
