@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using my_new_app.DataAccess.Interfaces;
@@ -50,36 +52,50 @@ namespace my_new_app.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Person>> PostPerson(Person person)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Person>> PostPerson(Person person, IValidator<Person> validator)
         {   
             if (person is null)
             {
-                return NotFound();
+                return BadRequest();
+            }
+
+            ValidationResult result = validator.Validate(person);
+            if (!result.IsValid)
+            {
+                var dictionary = new ModelStateDictionary();
+                foreach (ValidationFailure failure in result.Errors)
+                {
+                    dictionary.AddModelError(
+                        failure.PropertyName,
+                        failure.ErrorMessage);
+                }
+                return ValidationProblem(dictionary);
             }
 
             Category category = this._factory.CreateCategory(person.DateOfBirth);
             person.TransitionTo(category);              
             await _repository.Insert(person);
+
             return CreatedAtAction("/people", new { id = person.Id });
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<IEnumerable<Person>> Index(String word)
         {
             if (word is null)
             {
                 return BadRequest();
             }
-            var people = _repository.FilterByNameOrCategory(word);
 
+            var people = _repository.FilterByNameOrCategory(word);
             if (people is null)
             {
-                return NotFound();
+                return BadRequest();
             }
+
             return Ok(people);
         }
     }

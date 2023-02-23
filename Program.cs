@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using my_new_app.Data;
 using my_new_app.DataAccess.Interfaces;
@@ -16,6 +17,8 @@ builder.Services.AddSingleton<CategoryMapper>();
 builder.Services.AddScoped<ICategoryMapper, CategoryMapper>();
 builder.Services.AddSingleton<CategoryFactory>();
 builder.Services.AddScoped<ICategoryFactory, CategoryFactory>();
+builder.Services.AddScoped<IValidator<Person>, PersonValidator>();
+
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
