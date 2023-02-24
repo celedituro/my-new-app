@@ -7,26 +7,24 @@ import CONSTANTS from "../utils/Constants";
 const MIN_LENGTH_NAME = 3;
 const MAX_LENGTH_NAME = 30;
 const EMPTY = "";
-const NAME_KEY = "Name";
 const ERRORS = [CONSTANTS.INVALID_LENGTH_NAME, CONSTANTS.INVALID_NAME_WITH_NUMBERS, CONSTANTS.INVALID_FUTURE_DATE_OF_BIRTH];
+const OK = 0;
+const ERROR = -1;
 
 const Form = () => {
     // eslint-disable-next-line no-unused-vars
     const [formValue, setFormValue] = React.useState({
-        name: '',
-        dateOfBirth: ''
+        name: "",
+        dateOfBirth: ""
     });
-    const [nameError, setNameError] = React.useState('');
-    const [dateOfBirthError, setDateOfBirthError] = React.useState('');
-    const [isValid, setIsValid] = React.useState(true);
+    const [nameError, setNameError] = React.useState(EMPTY);
+    const [dateOfBirthError, setDateOfBirthError] = React.useState(EMPTY);
     const [show, setShow] = React.useState(false);
 
-    React.useEffect(() => {
-        setNameError('');
-        setDateOfBirthError('');
-    }, [show]);
-
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        clearErrors();
+    }
     const handleShow = () => setShow(true);
 
     const handleChange = (event) => {
@@ -35,64 +33,65 @@ const Form = () => {
         formValue[key] = value;
     }
 
-    function hasNumber(string) {
+    React.useEffect(() => {
+        setNameError(EMPTY)
+        setDateOfBirthError(EMPTY);
+    }, []);
+
+    const hasNumber = (string) => {
         return /\d/.test(string);
     }
 
-    function isLengthValid(nameLength) {
+    const isAValidLength = (nameLength) => {
         return (nameLength < MIN_LENGTH_NAME || nameLength > MAX_LENGTH_NAME);
     }
 
-    function showErrors(errors) {
+    const clearErrors = () => {
+        setNameError(EMPTY);
+        setDateOfBirthError(EMPTY);
+    } 
+
+    const validateName = () => {
+        if (isAValidLength(formValue.name.length)) {
+            setNameError(CONSTANTS.INVALID_LENGTH_NAME);
+            return ERROR
+        } 
+        if (hasNumber(formValue.name)) {
+            setNameError(CONSTANTS.INVALID_NAME_WITH_NUMBERS);
+            return ERROR
+        }
+
+        return 0;
+    }
+
+    const showErrors = (errors) => {
         for (const key in errors) {
             const err = errors[key][0];
             if (ERRORS.includes(err)) {
-                if (key === NAME_KEY) {
-                    if (nameError === EMPTY) {
-                        setNameError(err);
-                    }
-                } else {
-                    if (dateOfBirthError === EMPTY) {
-                        setDateOfBirthError(err);
-                    }
-                }
-                setIsValid(false);
+                setDateOfBirthError(err);
+            } else {
+                setDateOfBirthError("Por favor, seleccione una fecha de nacimiento");
             }
         }
     }
 
-    const validateName = () => {
-        if (isLengthValid(formValue.name.length)) {
-            setNameError(CONSTANTS.INVALID_LENGTH_NAME);
-            setIsValid(false);
-        }
-        if (hasNumber(formValue.name)) {
-            setNameError(CONSTANTS.INVALID_NAME_WITH_NUMBERS);
-            setIsValid(false);
-        }
-    }
-
-    const handleSubmit = async (e) => {      
+    const handleSubmit = async () => {  
         try {
-            validateName();
-            if (isValid) {
-                e.preventDefault();
-                const response = await axios({
-                    method: "post",
-                    url: "https://localhost:44425/people",
-                    data: {
-                        name: formValue.name,
-                        dateOfBirth: formValue.dateOfBirth,
-                    },
-                    headers: { "Content-Type": "application/json" },
-                });
-                console.log(response.data);
-                handleShow();
-            }
+            const response = await axios({
+                method: "post",
+                url: "https://localhost:44425/people",
+                data: {
+                    name: formValue.name,
+                    dateOfBirth: formValue.dateOfBirth,
+                },
+                headers: { "Content-Type": "application/json" },
+            });
+            console.log(response.data);
+            handleShow();
         } catch(error) {
             const errors = error.response.data.errors;
             showErrors(errors);
-        }
+        };
     };
 
     return (
@@ -138,7 +137,14 @@ const Form = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Enviar</button>
+                                <button type="submit" className="btn btn-primary" onClick={(e) => {
+                                    clearErrors();
+                                    e.preventDefault(); 
+                                    const isValid = validateName();
+                                    if (isValid === OK) {
+                                        handleSubmit()
+                                    }
+                                }}>Enviar</button>
                             </form>
                             <Modal show={show} onHide={handleClose}>
                                 <Modal.Header closeButton>

@@ -32,6 +32,7 @@ namespace my_new_app.DataAccess.Services
         {   
             return await EntitySet.FindAsync(id); 
         }
+        
         public async Task<T> Insert(T entity)
         {
             EntitySet.Add(entity);

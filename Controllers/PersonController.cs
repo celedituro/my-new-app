@@ -13,15 +13,10 @@ namespace my_new_app.Controllers
     public class PersonController : ControllerBase
     {
         private readonly IPersonRepository _repository;
-        private readonly IAgeCalculator _calculator;
-        private readonly ICategoryMapper _mapper;
         private readonly ICategoryFactory _factory;
-
-        public PersonController(IPersonRepository repository, IAgeCalculator calculator, ICategoryMapper mapper, ICategoryFactory factory)
+        public PersonController(IPersonRepository repository, ICategoryFactory factory)
         {
             _repository = repository;
-            _calculator = calculator;
-            _mapper = mapper;
             _factory = factory;
         }
 
@@ -35,7 +30,8 @@ namespace my_new_app.Controllers
             {
                 return BadRequest();
             };
-
+            
+            // Update people category
             for(int idx = 0; idx < data.Count(); idx++)
             {
                 var person = data.ElementAt(idx);;
@@ -73,6 +69,7 @@ namespace my_new_app.Controllers
                 return ValidationProblem(dictionary);
             }
 
+            // Set person's category
             Category category = this._factory.CreateCategory(person.DateOfBirth);
             person.TransitionTo(category);              
             await _repository.Insert(person);
