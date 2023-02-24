@@ -35,6 +35,12 @@ cd Tests
 ```
 dotnet test
 ```
+## Patrones de diseños
+- State
+- Strategy
+
+Ambos patrones fueron usados en la implementación de la lógica del cálculo de la categoría de una persona.
+
 ## Preguntas
 1. ¿Qué diferencia hay entre hacer que la base de datos se encargue de filtrar información que se tiene que visualizar en el frontend y hacer el filtro directamente en el frontend sin resolverlo a nivel de la base de datos? Las bases de datos tienen gestores que se encargan de optimizar las consultas que se hacen a las mismas con el objetivo de que las respuestas sean inmediatas o se puedan brindar lo más rápido posible. Por lo tanto, hacer el filtro a nivel de las bases de datos en un sistema con abundante cantidad de información almacenada es mucho más veloz que si se hace por medio del frontend.
 
