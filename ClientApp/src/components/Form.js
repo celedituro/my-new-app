@@ -10,6 +10,7 @@ const EMPTY = "";
 const ERRORS = [CONSTANTS.INVALID_LENGTH_NAME, CONSTANTS.INVALID_NAME_WITH_NUMBERS, CONSTANTS.INVALID_FUTURE_DATE_OF_BIRTH];
 const OK = 0;
 const ERROR = -1;
+const INVALID_EMPTY_DATE_OF_BIRTH = "Por favor, seleccione una fecha de nacimiento";
 
 const Form = () => {
     // eslint-disable-next-line no-unused-vars
@@ -70,7 +71,7 @@ const Form = () => {
             if (ERRORS.includes(err)) {
                 setDateOfBirthError(err);
             } else {
-                setDateOfBirthError("Por favor, seleccione una fecha de nacimiento");
+                setDateOfBirthError(INVALID_EMPTY_DATE_OF_BIRTH);
             }
         }
     }

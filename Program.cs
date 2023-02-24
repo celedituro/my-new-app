@@ -1,3 +1,4 @@
+using System.Reflection;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using my_new_app.Data;
@@ -27,7 +28,20 @@ builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddDbContext<PersonContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+        {
+            Title = "Person API",
+            Version = "v1",
+            Description = "An API to perform Person operations",
+        });
+
+        // Set the comments path for the Swagger JSON and UI.
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        c.IncludeXmlComments(xmlPath);
+    });
 
 var app = builder.Build();
 

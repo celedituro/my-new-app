@@ -20,9 +20,17 @@ namespace my_new_app.Controllers
             _factory = factory;
         }
 
+        /// <summary>
+        /// Gets the list of all People
+        /// </summary>
+        /// <returns>A list of people</returns>
+        /// <response code="200">Returns a list of all items</response>
+        /// <response code="400">If the list of items is null</response>
+           
+        // GET: people/all
         [HttpGet("all")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<IEnumerable<Person>>> GetPeople()
         {
             var data = await _repository.GetAll();
@@ -46,9 +54,26 @@ namespace my_new_app.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Creates a person
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST people
+        ///     {        
+        ///       "name": "Fulano",
+        ///       "dateOfBirth": ""2000-02-24"",
+        ///     }
+        /// </remarks>
+        /// <returns>A newly created person</returns>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>
+           
+        // GET: people
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<Person>> PostPerson(Person person, IValidator<Person> validator)
         {   
             if (person is null)
@@ -77,9 +102,17 @@ namespace my_new_app.Controllers
             return CreatedAtAction("/people", new { id = person.Id });
         }
 
+        /// <summary>
+        /// Gets a list of People that includes the word in his/her name o category name
+        /// </summary>
+        /// <returns>A list of people that meet the condition</returns>
+        /// <response code="200">Returns a list of items</response>
+        /// <response code="400">If the list of items is null</response>
+
+        // GET: people?word="word"
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public ActionResult<IEnumerable<Person>> Index(String word)
         {
             if (word is null)
