@@ -7,11 +7,11 @@ namespace Tests
     public class CategoryFactoryTest
     {
         [Fact]
-        public void ChildCategoryTest()
+        public void MinAgeForChildCategoryTest()
         {
-            DateOnly birth = new DateOnly(2022,02,01);
+            DateOnly birth = new DateOnly(2023,02,25);
             var mock = new Mock<DateProvider>();
-            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,19));
+            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,25));
             AgeCalculator calculator = new AgeCalculator(mock.Object);
             CategoryMapper mapper = new CategoryMapper(calculator);
             CategoryFactory factory = new CategoryFactory(mapper);
@@ -20,11 +20,24 @@ namespace Tests
         }
 
         [Fact]
-        public void TeenCategoryTest()
+        public void MaxAgeForChildCategoryTest()
         {
-            DateOnly birth = new DateOnly(2006,02,01);
+            DateOnly birth = new DateOnly(2013,02,25);
             var mock = new Mock<DateProvider>();
-            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,19));
+            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,25));
+            AgeCalculator calculator = new AgeCalculator(mock.Object);
+            CategoryMapper mapper = new CategoryMapper(calculator);
+            CategoryFactory factory = new CategoryFactory(mapper);
+
+            Assert.Equal("Niño", factory.CreateCategory(birth).Name);
+        }
+
+        [Fact]
+        public void MinAgeForTeenCategoryTest()
+        {
+            DateOnly birth = new DateOnly(2012,02,25);
+            var mock = new Mock<DateProvider>();
+            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,25));
             AgeCalculator calculator = new AgeCalculator(mock.Object);
             CategoryMapper mapper = new CategoryMapper(calculator);
             CategoryFactory factory = new CategoryFactory(mapper);
@@ -33,11 +46,24 @@ namespace Tests
         }
 
         [Fact]
-        public void AdultCategoryTest()
+        public void MaxAgeForTeenCategoryTest()
         {
-            DateOnly birth = new DateOnly(1974,02,01);
+            DateOnly birth = new DateOnly(2006,02,25);
             var mock = new Mock<DateProvider>();
-            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,19));
+            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,25));
+            AgeCalculator calculator = new AgeCalculator(mock.Object);
+            CategoryMapper mapper = new CategoryMapper(calculator);
+            CategoryFactory factory = new CategoryFactory(mapper);
+
+            Assert.Equal("Adolescente", factory.CreateCategory(birth).Name);
+        }
+
+        [Fact]
+        public void MinAgeForAdultCategoryTest()
+        {
+            DateOnly birth = new DateOnly(2005,02,25);
+            var mock = new Mock<DateProvider>();
+            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,25));
             AgeCalculator calculator = new AgeCalculator(mock.Object);
             CategoryMapper mapper = new CategoryMapper(calculator);
             CategoryFactory factory = new CategoryFactory(mapper);
@@ -46,11 +72,37 @@ namespace Tests
         }
 
         [Fact]
-        public void OctogenarianCategoryTest()
+        public void MaxAgeForAdultCategoryTest()
         {
-            DateOnly birth = new DateOnly(1930,02,01);
+            DateOnly birth = new DateOnly(1944,02,25);
             var mock = new Mock<DateProvider>();
-            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,19));
+            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,25));
+            AgeCalculator calculator = new AgeCalculator(mock.Object);
+            CategoryMapper mapper = new CategoryMapper(calculator);
+            CategoryFactory factory = new CategoryFactory(mapper);
+
+            Assert.Equal("Adulto", factory.CreateCategory(birth).Name);
+        }
+
+        [Fact]
+        public void MinAgeForOctogenarianCategoryTest()
+        {
+            DateOnly birth = new DateOnly(1943,02,25);
+            var mock = new Mock<DateProvider>();
+            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,25));
+            AgeCalculator calculator = new AgeCalculator(mock.Object);
+            CategoryMapper mapper = new CategoryMapper(calculator);
+            CategoryFactory factory = new CategoryFactory(mapper);
+
+            Assert.Equal("Octogenario", factory.CreateCategory(birth).Name);
+        }
+
+        [Fact]
+        public void MaxAgeForOctogenarianCategoryTest()
+        {
+            DateOnly birth = new DateOnly(1923,02,25);
+            var mock = new Mock<DateProvider>();
+            mock.Setup(x => x.Today).Returns(new DateTime(2023,02,25));
             AgeCalculator calculator = new AgeCalculator(mock.Object);
             CategoryMapper mapper = new CategoryMapper(calculator);
             CategoryFactory factory = new CategoryFactory(mapper);
