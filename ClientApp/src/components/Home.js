@@ -57,6 +57,7 @@ const Home = () => {
                         <tr>
                         <th>Id</th>
                         <th>Nombre</th>
+                        <th>Apellido</th>
                         <th>Fecha de nacimiento</th>
                         <th>Categoría</th>
                         </tr>
@@ -65,7 +66,8 @@ const Home = () => {
                         {people.map(person =>
                         <tr key={person.id}>
                             <td>{person.id}</td>
-                            <td>{person.name}</td>
+                            <td>{person.firstName}</td>
+                            <td>{person.lastName}</td>
                             <td>{person.dateOfBirth}</td>
                             <td>{person.categoryName}</td>
                         </tr>

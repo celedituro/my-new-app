@@ -7,26 +7,22 @@ import CONSTANTS from "../utils/Constants";
 const MIN_LENGTH_NAME = 3;
 const MAX_LENGTH_NAME = 30;
 const EMPTY = "";
-const ERRORS = [CONSTANTS.INVALID_LENGTH_NAME, CONSTANTS.INVALID_NAME_WITH_NUMBERS, CONSTANTS.INVALID_FUTURE_DATE_OF_BIRTH];
-const OK = 0;
-const ERROR = -1;
+const ERRORS = [CONSTANTS.INVALID_LENGTH_VALUE, CONSTANTS.INVALID_VALUE_WITH_NUMBERS, CONSTANTS.INVALID_FUTURE_DATE_OF_BIRTH];
+const OK = true;
+const ERROR = false;
 const INVALID_EMPTY_DATE_OF_BIRTH = "Por favor, seleccione una fecha de nacimiento";
 
 const Form = () => {
     // eslint-disable-next-line no-unused-vars
     const [formValue, setFormValue] = React.useState({
-        name: "",
+        firstName: "",
+        lastName: "",
         dateOfBirth: ""
     });
-    const [nameError, setNameError] = React.useState(EMPTY);
+    const [firstNameError, setFirstNameError] = React.useState(EMPTY);
+    const [lastNameError, setLastNameError] = React.useState(EMPTY);
     const [dateOfBirthError, setDateOfBirthError] = React.useState(EMPTY);
     const [show, setShow] = React.useState(false);
-
-    const handleClose = () => {
-        setShow(false);
-        clearErrors();
-    }
-    const handleShow = () => setShow(true);
 
     const handleChange = (event) => {
         var key = event.target.id;
@@ -34,10 +30,21 @@ const Form = () => {
         formValue[key] = value;
     }
 
-    React.useEffect(() => {
-        setNameError(EMPTY)
+    const clearErrors = () => {
+        setFirstNameError(EMPTY);
+        setLastNameError(EMPTY);
         setDateOfBirthError(EMPTY);
+    } 
+
+    React.useEffect(() => {
+        clearErrors();
     }, []);
+
+    const handleClose = () => {
+        setShow(false);
+        clearErrors();
+    }
+    const handleShow = () => setShow(true);
 
     const hasNumber = (string) => {
         return /\d/.test(string);
@@ -47,22 +54,17 @@ const Form = () => {
         return (nameLength < MIN_LENGTH_NAME || nameLength > MAX_LENGTH_NAME);
     }
 
-    const clearErrors = () => {
-        setNameError(EMPTY);
-        setDateOfBirthError(EMPTY);
-    } 
-
-    const validateName = () => {
-        if (isAValidLength(formValue.name.length)) {
-            setNameError(CONSTANTS.INVALID_LENGTH_NAME);
+    const validate = (value, setError) => {
+        if (isAValidLength(value.length)) {
+            setError(CONSTANTS.INVALID_LENGTH_VALUE);
             return ERROR
         } 
-        if (hasNumber(formValue.name)) {
-            setNameError(CONSTANTS.INVALID_NAME_WITH_NUMBERS);
+        if (hasNumber(value)) {
+            setError(CONSTANTS.INVALID_VALUE_WITH_NUMBERS);
             return ERROR
         }
 
-        return 0;
+        return OK;
     }
 
     const showErrors = (errors) => {
@@ -82,7 +84,8 @@ const Form = () => {
                 method: "post",
                 url: "https://localhost:44425/people",
                 data: {
-                    name: formValue.name,
+                    firstName: formValue.firstName,
+                    lastName: formValue.lastName,
                     dateOfBirth: formValue.dateOfBirth,
                 },
                 headers: { "Content-Type": "application/json" },
@@ -105,17 +108,35 @@ const Form = () => {
                                 <div className="row">
                                     <div className="col-md-6 mb-4 align-items-center">
                                         <div className="form-outline">
-                                            <label className="form-label" htmlFor="name">Nombre</label>
+                                            <label className="form-label" htmlFor="firstName">Nombre</label>
                                             <input 
                                                 type="text" 
                                                 className="form-control" 
-                                                id="name" 
+                                                id="firstName" 
                                                 placeholder="Ingrese su nombre" 
                                                 onChange={handleChange}
                                                 required/>
                                         </div>
                                         <div>
-                                            <p className="text-danger">{nameError}</p>
+                                            <p className="text-danger">{firstNameError}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <div className="row">
+                                    <div className="col-md-6 mb-4 align-items-center">
+                                        <div className="form-outline">
+                                            <label className="form-label" htmlFor="lastName">Apellido</label>
+                                            <input 
+                                                type="text" 
+                                                className="form-control" 
+                                                id="lastName" 
+                                                placeholder="Ingrese su apellido" 
+                                                onChange={handleChange}
+                                                required/>
+                                        </div>
+                                        <div>
+                                            <p className="text-danger">{lastNameError}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -141,8 +162,9 @@ const Form = () => {
                                 <button type="submit" className="btn btn-primary" onClick={(e) => {
                                     clearErrors();
                                     e.preventDefault(); 
-                                    const isValid = validateName();
-                                    if (isValid === OK) {
+                                    const isNameValid = validate(formValue.firstName, setFirstNameError);
+                                    const isLastNameValid = validate(formValue.lastName, setLastNameError);
+                                    if (isNameValid && isLastNameValid) {
                                         handleSubmit()
                                     }
                                 }}>Enviar</button>
@@ -151,7 +173,7 @@ const Form = () => {
                                 <Modal.Header closeButton>
                                     <Modal.Title>Información</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body>Se ha agregado a {formValue.name} éxitosamente</Modal.Body>
+                                <Modal.Body>Se ha agregado a {formValue.firstName} éxitosamente</Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleClose}>
                                         Cerrar

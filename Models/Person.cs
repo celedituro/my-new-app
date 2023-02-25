@@ -11,7 +11,10 @@ namespace my_new_app.Models
         public int Id { get; private set; }
 
         [Required]
-        public string Name { get; set; } = " ";
+        public string FirstName { get; set; } = " ";
+        
+        [Required]
+        public string LastName { get; set; } = " ";
 
         [Required]
         public DateOnly DateOfBirth { get; set; }
