@@ -1,8 +1,6 @@
 import { useEffect, useState} from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEraser } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Home.css';
 
 const Home = () => {
@@ -22,8 +20,8 @@ const Home = () => {
         getPeople();
     }, [])
 
-    const handleChange = e => {
-        handleSearch(e.target.value);
+    const handleClean = () => {
+        getPeople();
     }
 
     const handleSearch = async (search) => {
@@ -35,8 +33,12 @@ const Home = () => {
         }
     }
 
-    const handleClean = () => {
-        getPeople();
+    const handleChange = e => {
+        const word = e.target.value;
+        handleSearch(word);
+        if (word.length === 0) {
+            handleClean();
+        }
     }
 
     return (
@@ -44,12 +46,10 @@ const Home = () => {
             <div className="containerSearch">
                 <input
                     className="form-control inputSearch"
-                    placeholder="Búsqueda por Nombre o Categoría"
+                    placeholder="Búsqueda por Nombre o Apellido"
                     onChange={handleChange}
                 />
-                <button type="submit" className="btn btn-primary buttonClean" onClick={handleClean}>
-                    <FontAwesomeIcon icon={faEraser} />
-                </button>
+                <button type="submit" className="btn btn-primary buttonClean" onClick={handleClean}>Clear</button>
             </div>
             <div className="table-responsive">
                 <table className="table table-striped" aria-labelledby="tableLabel">

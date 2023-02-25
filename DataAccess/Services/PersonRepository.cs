@@ -14,11 +14,11 @@ namespace my_new_app.DataAccess.Services
         {
         }
 
-        public IEnumerable<Person> FilterByNameOrCategory(string search)
+        public IEnumerable<Person> FilterByFirstOrLastName(string word)
         {   
             return EntitySet.Where(x =>  
-                x.FirstName.ToLower().StartsWith(search.ToLower()) || 
-                (x.CategoryName != null && x.CategoryName.ToLower().StartsWith(search.ToLower())));
+                x.FirstName.ToLower().StartsWith(word.ToLower()) || 
+                x.LastName.ToLower().StartsWith(word.ToLower()));
         }
     }
 }

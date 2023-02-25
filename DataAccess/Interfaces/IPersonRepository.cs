@@ -8,6 +8,6 @@ namespace my_new_app.DataAccess.Interfaces
 {
     public interface IPersonRepository : IRepositoryBase<Person>
     {
-        IEnumerable<Person> FilterByNameOrCategory(string search);
+        IEnumerable<Person> FilterByFirstOrLastName(string search);
     }
 }

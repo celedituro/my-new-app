@@ -121,7 +121,7 @@ namespace my_new_app.Controllers
                 return BadRequest();
             }
 
-            var people = _repository.FilterByNameOrCategory(word);
+            var people = _repository.FilterByFirstOrLastName(word);
             if (people is null)
             {
                 return BadRequest();
