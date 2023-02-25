@@ -81,6 +81,7 @@ namespace my_new_app.Controllers
                 return BadRequest();
             }
 
+            // Show validation errors
             ValidationResult result = validator.Validate(person);
             if (!result.IsValid)
             {
