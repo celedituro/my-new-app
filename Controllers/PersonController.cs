@@ -62,8 +62,9 @@ namespace my_new_app.Controllers
         /// 
         ///     POST people
         ///     {        
-        ///       "name": "Fulano",
-        ///       "dateOfBirth": ""2000-02-24"",
+        ///       "firstName": "Fulano",
+        ///       "lastName": "Mengano",
+        ///       "dateOfBirth": "2000-02-24",
         ///     }
         /// </remarks>
         /// <returns>A newly created person</returns>

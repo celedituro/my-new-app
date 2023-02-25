@@ -6,11 +6,10 @@ import CONSTANTS from "../utils/Constants";
 
 const MIN_LENGTH_NAME = 3;
 const MAX_LENGTH_NAME = 30;
-const EMPTY = "";
-const ERRORS = [CONSTANTS.INVALID_LENGTH_VALUE, CONSTANTS.INVALID_VALUE_WITH_NUMBERS, CONSTANTS.INVALID_FUTURE_DATE_OF_BIRTH];
 const OK = true;
 const ERROR = false;
-const INVALID_EMPTY_DATE_OF_BIRTH = "Por favor, seleccione una fecha de nacimiento";
+const DATE_OF_BIRTH = "fecha de nacimiento";
+const ERRORS = [CONSTANTS.INVALID_LENGTH_VALUE, CONSTANTS.INVALID_VALUE_WITH_NUMBERS, CONSTANTS.INVALID_FUTURE_DATE_OF_BIRTH, CONSTANTS.INVALID_LAST_NAME];
 
 const Form = () => {
     // eslint-disable-next-line no-unused-vars
@@ -19,9 +18,9 @@ const Form = () => {
         lastName: "",
         dateOfBirth: ""
     });
-    const [firstNameError, setFirstNameError] = React.useState(EMPTY);
-    const [lastNameError, setLastNameError] = React.useState(EMPTY);
-    const [dateOfBirthError, setDateOfBirthError] = React.useState(EMPTY);
+    const [firstNameError, setFirstNameError] = React.useState("");
+    const [lastNameError, setLastNameError] = React.useState("");
+    const [dateOfBirthError, setDateOfBirthError] = React.useState("");
     const [show, setShow] = React.useState(false);
 
     const handleChange = (event) => {
@@ -31,9 +30,9 @@ const Form = () => {
     }
 
     const clearErrors = () => {
-        setFirstNameError(EMPTY);
-        setLastNameError(EMPTY);
-        setDateOfBirthError(EMPTY);
+        setFirstNameError("");
+        setLastNameError("");
+        setDateOfBirthError("");
     } 
 
     React.useEffect(() => {
@@ -70,10 +69,15 @@ const Form = () => {
     const showErrors = (errors) => {
         for (const key in errors) {
             const err = errors[key][0];
+            console.log(err)
             if (ERRORS.includes(err)) {
-                setDateOfBirthError(err);
+                if (err.includes(DATE_OF_BIRTH)) {
+                    setDateOfBirthError(err);
+                } else {
+                    setLastNameError(err);
+                }
             } else {
-                setDateOfBirthError(INVALID_EMPTY_DATE_OF_BIRTH);
+                setDateOfBirthError(CONSTANTS.INVALID_EMPTY_DATE_OF_BIRTH);
             }
         }
     }
@@ -173,7 +177,7 @@ const Form = () => {
                                 <Modal.Header closeButton>
                                     <Modal.Title>Información</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body>Se ha agregado a {formValue.firstName} éxitosamente</Modal.Body>
+                                <Modal.Body>Se ha agregado a {formValue.firstName} {formValue.lastName} éxitosamente</Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={handleClose}>
                                         Cerrar

@@ -6,6 +6,10 @@ namespace my_new_app.Models
     {
         public PersonValidator()
         {
+            RuleFor(person => person.LastName)
+                .NotEqual(customer => customer.FirstName)
+                .WithMessage("Por favor, ingrese un valor distinto al nombre");
+
             RuleFor(person => person.DateOfBirth)
                 .Must(BeBeforeThanToday)
                 .WithMessage("Por favor, ingrese una fecha anterior o igual a la de hoy como fecha de nacimiento");
