@@ -13,11 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddSingleton<DateProvider>();
 builder.Services.AddSingleton<AgeCalculator>();
-builder.Services.AddScoped<IAgeCalculator, AgeCalculator>();
 builder.Services.AddSingleton<CategoryMapper>();
-builder.Services.AddScoped<ICategoryMapper, CategoryMapper>();
 builder.Services.AddSingleton<CategoryFactory>();
+builder.Services.AddScoped<IAgeCalculator, AgeCalculator>();
 builder.Services.AddScoped<ICategoryFactory, CategoryFactory>();
+builder.Services.AddScoped<ICategoryMapper, CategoryMapper>();
 builder.Services.AddScoped<IValidator<Person>, PersonValidator>();
 
 builder.Services.AddControllers();

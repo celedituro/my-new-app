@@ -14,6 +14,7 @@ namespace my_new_app.Controllers
     {
         private readonly IPersonRepository _repository;
         private readonly ICategoryFactory _factory;
+
         public PersonController(IPersonRepository repository, ICategoryFactory factory)
         {
             _repository = repository;
@@ -38,11 +39,11 @@ namespace my_new_app.Controllers
             {
                 return BadRequest();
             };
-            
+
             // Update people category
             for(int idx = 0; idx < data.Count(); idx++)
             {
-                var person = data.ElementAt(idx);;
+                var person = data.ElementAt(idx);
                 Category category = this._factory.CreateCategory(person.DateOfBirth);
                 if(category.Name != person.CategoryName)
                 {   
@@ -64,7 +65,7 @@ namespace my_new_app.Controllers
         ///     {        
         ///       "firstName": "Fulano",
         ///       "lastName": "Mengano",
-        ///       "dateOfBirth": "2000-02-24",
+        ///       "dateOfBirth": "2000-02-24"
         ///     }
         /// </remarks>
         /// <returns>A newly created person</returns>
@@ -105,7 +106,7 @@ namespace my_new_app.Controllers
         }
 
         /// <summary>
-        /// Gets a list of People that includes the word in his/her name o category name
+        /// Gets a list of People that includes the word in his/her first name or last name
         /// </summary>
         /// <returns>A list of people that meet the condition</returns>
         /// <response code="200">Returns a list of items</response>
